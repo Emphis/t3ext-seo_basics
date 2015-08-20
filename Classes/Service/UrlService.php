@@ -1,6 +1,5 @@
 <?php
-
-namespace B13\SeoBasics\Controller;
+namespace B13\SeoBasics\Service;
 
 /***************************************************************
  *  Copyright notice - MIT License (MIT)
