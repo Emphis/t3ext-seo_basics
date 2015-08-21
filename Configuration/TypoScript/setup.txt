@@ -4,86 +4,86 @@
 plugin.tx_seobasics >
 plugin.tx_seobasics = COA
 plugin.tx_seobasics {
-    # Append a line break for every header tag
-    5 = TEXT
-    5.char = 10
+	# Append a line break for every header tag
+	5 = TEXT
+	5.char = 10
 
-    # Building the page title
-    10 = TEXT
-    10 {
-        data = page:tx_seo_titletag // page:title
-        trim = 1
-        stdWrap.stdWrap.append = TEXT
-        stdWrap.stdWrap.append.data = TSFE:tmpl|sitetitle
-        stdWrap.stdWrap.append.trim = 1
-        stdWrap.stdWrap.append.required = 1
-        stdWrap.stdWrap.append.if.isTrue = {$plugin.tx_seo.titleWrapAppendSiteTitle}
-        stdWrap.stdWrap.append.noTrimWrap = | - ||
-        stdWrap.noTrimWrap = {$plugin.tx_seo.titleWrap}
-        stdWrap.insertData = 1
-        htmlSpecialChars = 1
-        wrap = <title>|</title>
-        append = TEXT
-        append.char = 10
-    }
+	# Building the page title
+	10 = TEXT
+	10 {
+		data = page:tx_seo_titletag // page:title
+		trim = 1
+		stdWrap.stdWrap.append = TEXT
+		stdWrap.stdWrap.append.data = TSFE:tmpl|sitetitle
+		stdWrap.stdWrap.append.trim = 1
+		stdWrap.stdWrap.append.required = 1
+		stdWrap.stdWrap.append.if.isTrue = {$plugin.tx_seo.titleWrapAppendSiteTitle}
+		stdWrap.stdWrap.append.noTrimWrap = | - ||
+		stdWrap.noTrimWrap = {$plugin.tx_seo.titleWrap}
+		stdWrap.insertData = 1
+		htmlSpecialChars = 1
+		wrap = <title>|</title>
+		append = TEXT
+		append.char = 10
+	}
 
-    # Building the canonical tag
-    60 = TEXT
-    60 < .10
-    60 {
-        data >
-        stdWrap >
+	# Building the canonical tag
+	60 = TEXT
+	60 < .10
+	60 {
+		data >
+		stdWrap >
 
-        cObject = USER
-        cObject.userFunc = B13\SeoBasics\Service\UrlService->getCanonicalUrl
-        #cObject.useDomain = current
-        required = 1
-        if.isTrue = {$plugin.tx_seo.enableCanonicalTag}
-        wrap = <link rel="canonical" href="|" />
-        append = TEXT
-        append.char = 10
-    }
+		cObject = USER
+		cObject.userFunc = B13\SeoBasics\Service\UrlService->getCanonicalUrl
+		#cObject.useDomain = current
+		required = 1
+		if.isTrue = {$plugin.tx_seo.enableCanonicalTag}
+		wrap = <link rel="canonical" href="|" />
+		append = TEXT
+		append.char = 10
+	}
 }
 
 ##############
 #### PAGE ####
 ##############
 page {
-    meta {
-        # Building the page title
-        title < plugin.tx_seobasics.10
-        title {
-            wrap >
-        }
+	meta {
+		# Building the page title
+		title < plugin.tx_seobasics.10
+		title {
+			wrap >
+		}
 
-        # Building the description tag
-        description {
-            override.field = description
-            stdWrap.noTrimWrap = {$plugin.tx_seo.descriptionWrap}
-            stdWrap.stdWrap >
-            required = 1
-        }
+		# Building the description tag
+		description {
+			override.field = description
+			stdWrap.noTrimWrap = {$plugin.tx_seo.descriptionWrap}
+			stdWrap.stdWrap >
+			required = 1
+		}
 
-        # Building the keywords tag
-        keywords {
-            override.field = keywords
-            stdWrap.noTrimWrap = {$plugin.tx_seo.keywordsWrap}
-            stdWrap.stdWrap >
-            required = 1
-        }
+		# Building the keywords tag
+		keywords {
+			override.field = keywords
+			stdWrap.noTrimWrap = {$plugin.tx_seo.keywordsWrap}
+			stdWrap.stdWrap >
+			required = 1
+		}
 
-        # Building the date tag (last changed)
-        date = TEXT
-        date {
-            override.field = date
-            data = page:SYS_LASTCHANGED // page:crdate
-            date = Y-m-d
-            stdWrap >
-        }
-    }
+		# Building the date tag (last changed)
+		date = TEXT
+		date {
+			override.field = date
+			data = page:SYS_LASTCHANGED // page:crdate
+			date = Y-m-d
+			stdWrap >
+		}
+	}
 
-    # Activate SEO in main "page." configuration
-    headerData.776 = < plugin.tx_seobasics
+	# Activate SEO in main "page." configuration
+	headerData.776 = < plugin.tx_seobasics
 }
 
 
@@ -91,8 +91,8 @@ page {
 #### CONFIG ####
 ################
 config {
-    # Disabled <title> tag because we render it on our own
-    noPageTitle = 2
+	# Disabled <title> tag because we render it on our own
+	noPageTitle = 2
 }
 
 
@@ -101,12 +101,12 @@ config {
 ###############
 tx_seo_xmlsitemaps = PAGE
 tx_seo_xmlsitemaps {
-    typeNum = 776
-    config.disableAllHeaderCode = 1
-    config.renderCharset = utf-8
-    config.additionalHeaders = Content-type: text/xml
-    config.xhtml_cleaning = 0
-    10 = USER
-    10.userFunc = B13\SeoBasics\Controller\SitemapController->renderXMLSitemap
-    10.resolveMainShortcut = 1
+	typeNum = 776
+	config.disableAllHeaderCode = 1
+	config.renderCharset = utf-8
+	config.additionalHeaders = Content-type: text/xml
+	config.xhtml_cleaning = 0
+	10 = USER
+	10.userFunc = B13\SeoBasics\Controller\SitemapController->renderXMLSitemap
+	10.resolveMainShortcut = 1
 }
